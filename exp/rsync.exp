@@ -1,0 +1,17 @@
+#!/usr/bin/expect
+
+#exp_internal 1  # enable debugging
+#set cmd scp
+set cmd rsync
+
+set localpath [lindex $argv 0]
+set remotepath [lindex $argv 1]
+
+# asterisk(*) will not be expanded.
+spawn ${cmd} -avz --exclude=.svn* -e "ssh -p 22" ${localpath} ${remotepath}
+
+expect "password: "
+send "123\r"
+
+# give control back to user
+interact
